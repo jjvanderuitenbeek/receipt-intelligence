@@ -12,6 +12,7 @@ def main():
     r = AHReceiptProcessor()
     r.process_all_receipts(settings.PDF_AH_PATH)    
       
+      
     
 
 if __name__ == "__main__":
