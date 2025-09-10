@@ -1,6 +1,8 @@
 
+import src.receipt_intelligence.infrastructure.init_db as init_db
+
 from src.receipt_intelligence.config import settings
-from src.receipt_intelligence.application.receipt_reader.receiptReader import AHReceiptProcessor
+from src.receipt_intelligence.application.receipt_reader.receiptReader import AHReceiptProcessor, LidlReceiptProcessor
 
 
 # .venv\Scripts\activate.bat
@@ -9,9 +11,12 @@ from src.receipt_intelligence.application.receipt_reader.receiptReader import AH
 
 def main():
 
+    init_db.init_db()
+
     r = AHReceiptProcessor()
-    r.process_all_receipts(settings.PDF_AH_PATH)    
-      
+    r.process_all_receipts()    
+
+    #r = LidlReceiptProcessor() 
       
     
 
