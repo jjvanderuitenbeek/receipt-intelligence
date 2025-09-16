@@ -14,14 +14,14 @@ from src.receipt_intelligence.interface.streamlit import app
 def main():
 
 
-    logging.basicConfig(level=logging.INFO)
-    init_db.init_db()
+    #logging.basicConfig(level=logging.INFO)
+    #init_db.init_db()
 
-    rpAH = AHReceiptProcessor()
-    rpAH.process_all_receipts()    
+    #rpAH = AHReceiptProcessor()
+    #rpAH.process_all_receipts()    
 
-    rpLidl = LidlReceiptProcessor() 
-    rpLidl.process_all_receipts() 
+    #rpLidl = LidlReceiptProcessor() 
+    #rpLidl.process_all_receipts() 
    
     # Start Streamlit
     subprocess.run(["streamlit", "run", "src/receipt_intelligence/interface/streamlit/app.py"])
