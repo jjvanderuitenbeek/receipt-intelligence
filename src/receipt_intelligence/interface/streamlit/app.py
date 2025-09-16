@@ -7,16 +7,11 @@ from langchain_core.messages import HumanMessage
 sys.path.append(str(Path().resolve()))
 
 from src.receipt_intelligence.config import settings
-from src.receipt_intelligence.modules.conversation_service import chains
-from src.receipt_intelligence.modules.conversation_service.graph import graph   
+from src.receipt_intelligence.modules.text2sql_service.graph import graph   
 
 # --- Connect to the SQLite database ---
 conn = sqlite3.connect(settings.DB_PATH)
 cursor = conn.cursor()
-
-# --- Initialize response chain ---
-# Initialize the chain
-chain = chains.get_receiptbot_response_chain()
 
 
 # --- Streamlit app ---
@@ -30,11 +25,7 @@ if "messages" not in st.session_state:
 if "user_input" not in st.session_state:
     st.session_state.user_input = ""
 
-state = {
-        "messages": [],
-        "message_type": "general_prompt",
-        "summary": ""
-    }
+state = None
 
 # --- Conversational interface: User input message ---
 # Text area for input
@@ -45,17 +36,20 @@ st.text_area(
     placeholder="Type your message and press Enter or click Send..."
 )
 
-if st.button("Send") and st.session_state.user_input:
-    # Prepare the message in the format your chain expects
-    state["messages"].append(HumanMessage(content=st.session_state.user_input))
+state = None
 
-    # Await the async graph call
-    state = graph.invoke(state)
+
+if st.button("Send") and st.session_state.user_input:
     
+    state = graph.invoke(
+        {"messages": [("user", st.session_state.user_input)]},
+        config={"configurable": {"thread_id": "conversation-1"}},
+        state=state,
+    )
 
     # Display the response in a separate box
     st.subheader("Receipt Bot Response:")
-    st.text_area("Response", value=state["messages"][-1].content, height=150)
+    st.text_area("Response", value=state["final_response"], height=300)
 
 # --- Sidebar: Query input ---
 st.sidebar.header("Custom SQL Query")

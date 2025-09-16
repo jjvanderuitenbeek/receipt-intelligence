@@ -1,0 +1,5 @@
+https://langchain-ai.github.io/langgraph/tutorials/customer-support/customer-support/
+https://github.com/techwithtim/LangGraph-Tutorial/blob/main/main.py
+https://github.com/neural-maze/philoagents-course/tree/main/philoagents-api/src/philoagents
+https://langchain-ai.github.io/langgraph/tutorials/get-started/1-build-basic-chatbot/
+https://python.langchain.com/docs/concepts/prompt_templates/
