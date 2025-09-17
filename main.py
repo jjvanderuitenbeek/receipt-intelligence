@@ -9,7 +9,8 @@ from src.receipt_intelligence.interface.streamlit import app
 
 # .venv\Scripts\activate.bat
 # python main.py
-
+# docker build -t my-python-app:latest .
+# docker run -p 8501:8501 my-python-app
 
 def main():
 
@@ -24,8 +25,14 @@ def main():
     #rpLidl.process_all_receipts() 
    
     # Start Streamlit
-    subprocess.run(["streamlit", "run", "src/receipt_intelligence/interface/streamlit/app.py"])
+    #subprocess.run(["streamlit", "run", "src/receipt_intelligence/interface/streamlit/app.py"])
 
+    subprocess.run([
+        "streamlit", "run", "src/receipt_intelligence/interface/streamlit/app.py",
+        "--server.address=0.0.0.0",
+        "--server.port=8501",
+        "--server.enableCORS=false"
+    ])
 
 if __name__ == "__main__":
     main()
