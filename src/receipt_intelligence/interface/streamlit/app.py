@@ -49,19 +49,14 @@ if st.button("Send") and st.session_state.user_input:
 
     # Display the response in a separate box
     st.subheader("Receipt Bot Response:")
-    st.text_area("Response", value=state["final_response"], height=300)
+    
+    if state["last_userquery_type"] == "general_prompt":
+        st.text_area("Response", value=state["final_response"], height=300)
 
-# --- Sidebar: Query input ---
-st.sidebar.header("Custom SQL Query")
-user_query = st.sidebar.text_area("Enter SQL query:", value="SELECT * FROM receiptTable LIMIT 10")
-if st.sidebar.button("Run Query"):
-    try:
-        query_result = pd.read_sql_query(user_query, conn)
-        st.subheader("Query Results")
-        st.dataframe(query_result)
-    except Exception as e:
-        st.error(f"Error: {e}")
-
+    if state["last_userquery_type"] == "receipt_prompt":
+        df_reconstructed = pd.DataFrame(state["query_result"])
+        st.dataframe(df_reconstructed)
+        
 # --- Basic statistics ---
 st.header("📈 Basic Statistics")
 
